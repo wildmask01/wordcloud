@@ -1,71 +1,117 @@
+词云是最近比较流行的一个玩法，javascript, python, R 等语言都有库可以实现。
 
-python真的超级超级好玩呐，不管是爬虫还是数据挖掘，真的都超级有意思。
+简单介绍一下python的wordcloud。
 
-今天，来说一说python一个好玩的模块wordcloud
+github:
+https://github.com/amueller/word_cloud
 
-构建词云的方法很多, 但是个人觉得python的wordcloud包功能最为强大,可以自定义图片. 
+示例代码地址： 
 
-官网: https://amueller.github.io/word_cloud/ 
-
-github: https://github.com/amueller/word_cloud
-
-# 例子: 
-
-闲着无聊，用wordcloud做了个词云标签，Jieba分词分析了一下给木木写的日记，捂脸ing⊂(˃̶͈̀ε ˂̶͈́ ⊂ )⋯⋯
-![image](http://oavk3bisu.bkt.clouddn.com/wordcloud-2.png)
-
-
-
-
-又顺便从网上爬了几百句英文情诗，差不多都是这些套路
-
-又是一项撩妹新技能get，可惜我木有妹子可以撩～～郁闷o(￣ヘ￣o❀)
-![image](http://oavk3bisu.bkt.clouddn.com/w.png)
-
-**字体用的是cabin-sketch.bold**
-
-**大家也可以自己来调模板和字体**
-
-
-
-# 安装
-## 方法1
-
-`pip install wordcloud`
-
-## 方法2
-- github下载并解压
+### 1. 安装
 ```
-wget  https://github.com/amueller/word_cloud/archive/master.zip
-unzip master.zip
-rm master.zip
-cd word_cloud-master
+pip install wordcloud
 ```
 
-- 安装依赖包
+### 2. 入门例子
+- constitution.py
+```
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
-`sudo pip install -r requirements.txt`
+# 读取文本内容
+text = open('../text/constitution.txt').read()
 
-- 安装wordcloud
+# 生成词云图片数据
+wordcloud = WordCloud().generate(text)
+image = wordcloud.to_image()
+image.show()
+wordcloud.to_file("../word_image/constitution.png")
 
-`python setup.py install`
+# 使用 matplotlib 展示数据
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+```
+![image.png](http://note.youdao.com/yws/res/11778/WEBRESOURCE79b639bc9727fa666f4fe5d691d6e02f)
+```
+# 使用 matplotlib 遇到的问题
+RuntimeError: Python is not installed as a framework
+> 解决方法：
+echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
+> 详细可参考：
+https://stackoverflow.com/questions/21784641/installation-issue-with-matplotlib-python/21789908#21789908
+```
 
 
-## 方法三
+### 3. 常用参数配置
+- love.py
+```
+from wordcloud import WordCloud, STOPWORDS
+from scipy.misc import imread
 
-- 下载[.whl文件](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud)
+# 读取文本内容
+text = open('../text/love.txt').read()
+wc = WordCloud(font_path='../font/simhei.ttf',  # 设置字体
+               background_color="black",  # 背景颜色
+               max_words=100,  # 词云显示的最大词数
+               mask=imread("../background_image/love.jpg"),  # 设置背景图片
+               stopwords=set(STOPWORDS),  # 使用内置单词集合过滤
+               max_font_size=100,  # 字体最大值
+               random_state=42,  # random.Random的种子，用来生成随机颜色
+               # width=1000,
+               # height=860,
+               )
+wordcloud = wc.generate(text)
+image = wordcloud.to_image()
+image.show()
+wordcloud.to_file("../word_image/love.png")
+```
+![image.png](http://note.youdao.com/yws/res/11780/WEBRESOURCE37b13cd5623b34d0c674286af7b4d762)
 
-- 使用cd命令进入whl文件的路径
+[全部参数说明](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud)
 
-- 运行这条命令：
-
-`python -m pip install <filename> `
-
-
-# 源码在word.py中
-源码的运行结果就像下面这个样子
-![](http://oavk3bisu.bkt.clouddn.com/wordcloud-3.png)
+### 3. 中文分词
+- talk.py
+```
+from wordcloud import WordCloud
+from scipy.misc import imread
+import jieba
 
 
-# Reference:
-[python好玩的词云wordcloud](http://zyy1314.com/2016/07/31/python%E7%9A%84%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E6%A8%A1%E5%9D%97wordcloud/)
+# 使用自定义的中文屏蔽词组
+def stop_words():
+    f = open('../text/stopwords.txt', 'r', encoding='utf-8')
+    word_list = [' ']
+    while True:
+        line = f.readline().rstrip()
+        word_list.append(line)
+        if not line:
+            break
+    f.close()
+    return word_list
+
+
+text = open('../text/talk.txt').read()
+word_generator = jieba.cut(text)  # 使用结巴分词，获得生成器
+text = ' '.join([word for word in word_generator])
+
+wc = WordCloud(font_path='../font/simhei.ttf',  # 设置字体
+               background_color="black",  # 背景颜色
+               max_words=100,  # 词云显示的最大词数
+               mask=imread("../background_image/love.jpg"),  # 设置背景图片
+               stopwords=set(stop_words()),  # 使用内置单词集合过滤
+               max_font_size=100,  # 字体最大值
+               random_state=42,  # random.Random的种子，用来生成随机颜色
+               # width=1000,
+               # height=860,
+               )
+
+
+wc_text = wc.generate(text)
+image = wc_text.to_image()
+image.show()
+wc_text.to_file("../word_image/talk.png")
+```
+
+![image.png](http://note.youdao.com/yws/res/11782/WEBRESOURCEd4960e7d604a910ffd14660240ed6272)
+
