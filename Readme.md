@@ -42,7 +42,7 @@ echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
 https://stackoverflow.com/questions/21784641/installation-issue-with-matplotlib-python/21789908#21789908
 ```
 
-
+`_``_`
 ### 3. 常用参数配置
 - love.py
 ```
