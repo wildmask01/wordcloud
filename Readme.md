@@ -32,7 +32,7 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 plt.show()
 ```
-![image.png](http://note.youdao.com/yws/res/11778/WEBRESOURCE79b639bc9727fa666f4fe5d691d6e02f)
+![这里写图片描述](https://img-blog.csdn.net/20180722221715882?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21heG1hbzEwMjQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 ```
 # 使用 matplotlib 遇到的问题
 RuntimeError: Python is not installed as a framework
@@ -42,7 +42,6 @@ echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
 https://stackoverflow.com/questions/21784641/installation-issue-with-matplotlib-python/21789908#21789908
 ```
 
-`_``_`
 ### 3. 常用参数配置
 - love.py
 ```
@@ -66,7 +65,7 @@ image = wordcloud.to_image()
 image.show()
 wordcloud.to_file("../word_image/love.png")
 ```
-![image.png](http://note.youdao.com/yws/res/11780/WEBRESOURCE37b13cd5623b34d0c674286af7b4d762)
+![这里写图片描述](https://img-blog.csdn.net/20180722221656645?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21heG1hbzEwMjQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 [全部参数说明](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud)
 
@@ -113,5 +112,4 @@ image.show()
 wc_text.to_file("../word_image/talk.png")
 ```
 
-![image.png](http://note.youdao.com/yws/res/11782/WEBRESOURCEd4960e7d604a910ffd14660240ed6272)
-
+![这里写图片描述](https://img-blog.csdn.net/20180722221632239?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21heG1hbzEwMjQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
